@@ -1,7 +1,7 @@
 import math
 import statistics
 
-import stat_transformations as strf
+from ribonorma import stat_transformations as strf
 
 def tpm (reads, gene_length):
 

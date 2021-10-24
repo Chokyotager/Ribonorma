@@ -1,0 +1,52 @@
+USAGE
+  ribonorma-normalise [-method TPM/TPMR/TPMM/TPMR2] [-in datafile]
+    [-out counts_output] [-remove_all_zeroes True] [-infile_separator \t]
+    [-outfile_separator \t] [-has_labels False]
+    [-id_column 0] [-length_column 1] [-count_start 2] [-h] [-phenotype_file]
+    [-phenotype_file_separator \n] [-percent_housekeep 10]
+
+DESCRIPTION
+  Ribonorma Python v1.1
+
+PARAMETERS
+[-h]
+Shows this interface.
+
+[-method (string)]
+Normalisation method. Can be "TPM", "TPMM", "TPMR" or "TPMR2"
+
+[-in (string)]:
+Input raw count file with IDs and gene lengths.
+
+[-out (string)]
+Optional output file. If not specified, will output to stdout.
+
+[-remove_all_zeroes (boolean)]
+Automatically removes genes that have zero counts throughout all samples - this reduces skew in largely Pareto datasets. Default: True
+
+[-infile_separator (string)]
+Separator for the input file (i.e. "," for CSV). Default: \t
+
+[-outfile_separator (string)]
+Separator for the output file (i.e. "," for CSV). Default: \t
+
+[-has_labels (boolean)]
+First row in input datafile are labels. Default: False
+
+[-id_column (int)]
+The index of the column (starts counting from 0) of the gene IDs in the input file. Default: 0
+
+[-length_column (int)]
+The index of the column (starts counting from 0) of the gene lengths in the input file. Default: 1
+
+[-count_start (int)]
+The index of the column (starts counting from 0) where the read counts start. Default: 2
+
+[-phenotype_file (string)]
+File for phenotype data - only required for TPMR and TPMR2 calculations.
+
+[-phenotype_file_separator (string)]
+Separator for the phenotype file (i.e. "\n") to delimit the different phenotypes/conditions of the RNA sequencing runs.
+
+[-percent_housekeep (float)]
+Percentage of genes to consider for the geometric mean calculation. Only required in TPMR/TPMR2. Equivalent to alpha. Default: 10

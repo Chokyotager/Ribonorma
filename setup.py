@@ -22,8 +22,16 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ),
-    install_requires=[],
-    scripts=[],
+    install_requires=[
+        "matplotlib>=2.2.2",
+        "numpy>=1.19.5",
+        "seaborn>=0.11.2",
+        "pandas>=1.1.5",
+        "scipy>=1.4.1"
+    ],
+    scripts=[
+        "src/cline_tools/ribonorma-normalise"
+    ],
     package_dir={"": "src"},
     packages=setuptools.find_packages(where="src"),
     python_requires=">=3.6"

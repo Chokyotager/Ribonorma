@@ -1,1 +1,1 @@
-__name__ = "orffinder"
+__name__ = "ribonorma"

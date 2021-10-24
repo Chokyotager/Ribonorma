@@ -1,0 +1,102 @@
+#!/usr/bin/env python
+
+import sys
+import os
+from ribonorma import ribonorma
+
+arguments = sys.argv + [""]
+classed_arguments = {"remove_all_zeroes": "True", "infile_separator": "\t", "outfile_separator": "\t", "has_labels": "False", "length_column": "1", "data_start": "2", "id_column": "0", "percent_housekeep": "10", "phenotype_file_separator": "\n"}
+
+dir_path = os.path.dirname(os.path.realpath(__file__))
+
+try:
+    for i in range(len(arguments)):
+
+        argument = arguments[i]
+
+        if argument.startswith("-"):
+
+            classed_arguments[argument[1:]] = arguments[i + 1]
+
+    if "h" in classed_arguments.keys():
+        help_output = open(dir_path + "/help_pages/ribonorma-normalise.txt", "r").read()
+        print(help_output)
+        os._exit(1)
+
+    data = [x.split(classed_arguments["infile_separator"]) for x in open(classed_arguments["in"]).read().split("\n") if len(x.split(classed_arguments["infile_separator"])) > 1]
+
+    has_labels = classed_arguments["has_labels"] == "True"
+    remove_all_zeroes = classed_arguments["remove_all_zeroes"] == "True"
+
+    id_column = int(classed_arguments["id_column"])
+    length_column = int(classed_arguments["length_column"])
+    data_start = int(classed_arguments["data_start"])
+
+    if has_labels:
+        labels = data[0]
+        data = data[1:]
+
+    # Flip the data
+    transposed_data = [list(x) for x in list(zip(*data))]
+
+    ids = transposed_data[id_column]
+    lengths = [int(x) for x in transposed_data[length_column]]
+    sample_data = [[float(y) for y in x] for x in transposed_data[data_start:]]
+
+    if remove_all_zeroes:
+
+        for i in range(len(lengths)):
+
+            counts = [x[i] for x in sample_data]
+
+            if sum(counts) == 0:
+                del sample_data[i]
+                del lengths[i]
+                del ids[i]
+
+
+    if classed_arguments["method"] == "TPM":
+
+        output = list()
+        # Calculate the TPM
+        for sample in sample_data:
+
+            tpm_data = ribonorma.tpm(reads=sample, gene_length=lengths)
+            output.append(tpm_data)
+
+    elif classed_arguments["method"] == "TPMM":
+
+        output = ribonorma.tpmm(samples=sample_data, gene_length=lengths)
+
+    elif classed_arguments["method"] == "TPMR":
+
+        phenotypes = [x for x in open(classed_arguments["phenotype_file"]).read().split(classed_arguments["phenotype_file_separator"]) if len(x) > 0]
+        percent_housekeep = float(classed_arguments["percent_housekeep"])
+
+        output = ribonorma.tpmr(samples=sample_data, gene_length=lengths, experimental_conditions=phenotypes, percent_housekeep=percent_housekeep)
+
+    elif classed_arguments["method"] == "TPMR2":
+
+        phenotypes = [x for x in open(classed_arguments["phenotype_file"]).read().split(classed_arguments["phenotype_file_separator"]) if len(x) > 0]
+        percent_housekeep = float(classed_arguments["percent_housekeep"])
+
+        output = ribonorma.tpmr_2(samples=sample_data, gene_length=lengths, experimental_conditions=phenotypes, percent_housekeep=percent_housekeep)
+
+    # Reappend the output
+    output_data = [ids] + [[str(y) for y in x] for x in output]
+    output_data = [list(x) for x in list(zip(*output_data))]
+
+    if has_labels:
+        output_data = [["ids"] + labels[data_start:]] + output_data
+
+    out = "\n".join([classed_arguments["outfile_separator"].join(x) for x in output_data])
+
+    if "out" in classed_arguments.keys():
+        open(classed_arguments["out"], "w+").write(out)
+
+    else:
+        print(out)
+
+
+except:
+    print("USAGE\n  ribonorma-normalise [-method TPM/TPMR/TPMM/TPMR2] [-in datafile]\n    [-out counts_output] [-remove_all_zeroes True] [-infile_separator \\t]\n    [-outfile_separator \\t] [-has_labels False]\n    [-id_column 0] [-length_column 1] [-count_start 2] [-h] [-phenotype_file]\n    [-phenotype_file_separator \\n] [-percent_housekeep 10]\n\nDESCRIPTION\n  Ribonorma Python v1.1\n\nUse '-help' to print detailed descriptions of command line arguments\n========================================================================")

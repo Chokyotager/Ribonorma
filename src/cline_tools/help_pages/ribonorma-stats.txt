@@ -1,0 +1,9 @@
+USAGE
+  ribonorma-stats [-h]
+
+DESCRIPTION
+  Ribonorma Python v1.1
+
+PARAMETERS
+[-h]
+Shows this interface.
