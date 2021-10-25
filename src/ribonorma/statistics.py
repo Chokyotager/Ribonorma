@@ -51,7 +51,7 @@ def ANOVA (samples, genes):
 
     return sorted(significances, key=lambda x : x["p-value"])
 
-def calculateOVL (X, Y):
+def calculateOVL (samples):
 
     def get_x_distribution (X, pdf):
 
@@ -64,9 +64,11 @@ def calculateOVL (X, Y):
 
         return lambda x : pdf(x, df=df, loc=x_bar, scale=s)
 
-    f1 = get_x_distribution(X, stats.t.pdf)
-    f2 = get_x_distribution(Y, stats.t.pdf)
+    functions = list()
 
-    output = integrate.quad(lambda x : min(f1(x), f2(x)), -np.inf, np.inf, full_output=1)
+    for sample in samples:
+        functions.append(get_x_distribution(sample, stats.t.pdf))
+
+    output = integrate.quad(lambda x : min([function(x) for function in functions]), -np.inf, np.inf, full_output=1)
 
     return output[0]

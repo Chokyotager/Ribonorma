@@ -45,7 +45,7 @@ try:
 
     if remove_all_zeroes:
 
-        for i in range(len(lengths)):
+        for i in range(len(lengths) - 1, -1, -1):
 
             counts = [x[i] for x in sample_data]
 

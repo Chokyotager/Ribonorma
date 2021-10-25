@@ -31,7 +31,9 @@ setuptools.setup(
     ],
     scripts=[
         "src/cline_tools/ribonorma-normalise",
-        "src/cline_tools/ribonorma-stats"
+        "src/cline_tools/ribonorma-stats",
+        "src/cline_tools/ribonorma-plot",
+        "src/cline_tools/ribonorma-compare"
     ],
     package_dir={"": "src"},
     packages=setuptools.find_packages(where="src"),

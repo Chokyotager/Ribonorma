@@ -1,0 +1,11 @@
+USAGE
+  ribonorma-plot [-h] [-type histogram/volcano] [-in filename] [-out filename]
+    [-infile_separator \t] [-has_labels True] [-alpha 0.05]
+    [-foldchange_log_limits 1.5]
+
+DESCRIPTION
+  Ribonorma Python v1.1
+
+PARAMETERS
+[-h]
+Shows this interface.
