@@ -2,10 +2,11 @@
 
 import sys
 import os
-from ribonorma import ribonorma
+import math
+from ribonorma import statistics
 
 arguments = sys.argv + [""]
-classed_arguments = {}
+classed_arguments = {"infile_separator": "\t", "outfile_separator": "\t", "phenotype_file_separator": "\n", "has_labels": "True", "compare": "", "method": "ANOVA"}
 
 try:
     for i in range(len(arguments)):
@@ -20,3 +21,78 @@ try:
         help_output = open("help_pages/ribonorma-stats.txt", "r").read()
         print(help_output)
         os._exit(1)
+
+
+    has_labels = classed_arguments["has_labels"] == "True"
+
+    data = [x.split(classed_arguments["infile_separator"]) for x in open(classed_arguments["in"]).read().split("\n")]
+
+    if has_labels:
+        labels = data[0]
+        data = data[1:]
+
+    transposed_data = [list(x) for x in list(zip(*data))]
+    ids = transposed_data[0]
+
+    phenotypes = [x for x in open(classed_arguments["phenotype_file"]).read().split(classed_arguments["phenotype_file_separator"]) if len(x) > 0]
+    unique_phenotypes = list(set(phenotypes))
+    compare_phenotypes = classed_arguments["compare"].split(",")
+
+    # Group by phenotypes
+    pheno_rearranged = list()
+    for i in range(len(data)):
+
+        pheno_datapoint = [list() for x in range(len(unique_phenotypes))]
+
+        for j in range(1, len(data[i])):
+
+            index = unique_phenotypes.index(phenotypes[j - 1])
+            pheno_datapoint[index].append(float(data[i][j]))
+
+        pheno_rearranged.append(pheno_datapoint)
+
+    transposed_phenos = [list(x) for x in list(zip(*pheno_rearranged))]
+
+    if classed_arguments["method"] == "independent":
+
+        assert len(compare_phenotypes) == 2
+
+        index1 = unique_phenotypes.index(compare_phenotypes[0])
+        index2 = unique_phenotypes.index(compare_phenotypes[1])
+
+        output = statistics.twosample_independent(transposed_phenos[index1], transposed_phenos[index2], genes=ids)
+
+    elif classed_arguments["method"] == "dependent":
+
+        assert len(compare_phenotypes) == 2
+
+        index1 = unique_phenotypes.index(compare_phenotypes[0])
+        index2 = unique_phenotypes.index(compare_phenotypes[1])
+
+        output = statistics.twosample_dependent(transposed_phenos[index1], transposed_phenos[index2], genes=ids)
+
+    elif classed_arguments["method"] == "ANOVA":
+
+        assert len(phenotypes) >= len(compare_phenotypes) and len(compare_phenotypes) != 0
+
+        indices = [unique_phenotypes.index(x) for x in compare_phenotypes]
+        samples = [transposed_phenos[x] for x in indices]
+
+        output = statistics.ANOVA(samples, genes=ids)
+
+    writable = [["ID", "Fold change", "-Log10 FC", "Statistic", "p-value"]]
+    for i in range(len(output)):
+
+        current_datapoint = output[i]
+        writable.append([current_datapoint["gene"], str(current_datapoint["fold-change"]), str(-math.log10(current_datapoint["fold-change"]) if current_datapoint["fold-change"] != 0 else math.nan), str(current_datapoint["statistic"]), str(current_datapoint["p-value"])])
+
+    out = "\n".join([classed_arguments["outfile_separator"].join(x) for x in writable])
+
+    if "out" in classed_arguments.keys():
+        open(classed_arguments["out"], "w+").write(out)
+
+    else:
+        print(out)
+
+except:
+    print("USAGE\n  ribonorma-normalise [-h] [-in filename] [-out filename]\n    [-phenotype_file filename] [-infile_separator \\t] [-outfile_separator \\t]\n    [-phenotype_file_separator \\n] [-compare phenotypes]\n    [-method independent/dependent/ANOVA] [-has_labels True]\n\nDESCRIPTION\n  Ribonorma Python v1.1\n\nUse '-help' to print detailed descriptions of command line arguments\n========================================================================")

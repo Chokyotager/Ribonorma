@@ -30,7 +30,8 @@ setuptools.setup(
         "scipy>=1.4.1"
     ],
     scripts=[
-        "src/cline_tools/ribonorma-normalise"
+        "src/cline_tools/ribonorma-normalise",
+        "src/cline_tools/ribonorma-stats"
     ],
     package_dir={"": "src"},
     packages=setuptools.find_packages(where="src"),
