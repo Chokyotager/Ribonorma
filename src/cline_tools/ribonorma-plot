@@ -99,6 +99,12 @@ try:
 
     elif classed_arguments["type"] == "QQ":
 
+        for i in range(len(p_values)-1, -1, -1):
+
+            if p_values[i] < alpha:
+
+                del logged_fc[i]
+
         filtered = [x for x in logged_fc if abs(x) < 1.25 * foldchange_log_limits]
 
         stat, fit = stats.probplot(filtered)

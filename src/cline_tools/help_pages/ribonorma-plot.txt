@@ -1,5 +1,5 @@
 USAGE
-  ribonorma-plot [-h] [-type histogram/volcano] [-in filename] [-out filename]
+  ribonorma-plot [-h] [-type histogram/volcano/QQ] [-in filename] [-out filename]
     [-infile_separator \t] [-has_labels True] [-alpha 0.05]
     [-foldchange_log_limits 1.5]
 
@@ -9,3 +9,8 @@ DESCRIPTION
 PARAMETERS
 [-h]
 Shows this interface.
+
+[-type (string)]
+Type of plot to produce. Can either be "histogram", "volcano", or "QQ".
+
+[-in (string)]
