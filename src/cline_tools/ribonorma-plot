@@ -97,6 +97,38 @@ try:
         fig.text(0.85, 0.83, p_value_text, verticalalignment="top", horizontalalignment="right")
         fig.legend(["Normal distribution (SD estimated)", "Fold change distribution"], loc=(0.55, 0.85))
 
+    elif classed_arguments["type"] == "QQ":
+
+        filtered = [x for x in logged_fc if abs(x) < 1.25 * foldchange_log_limits]
+
+        stat, fit = stats.probplot(filtered)
+
+        fig, ax = plt.subplots()
+
+        plt.scatter(stat[0], stat[1], color="#004594", s=2)
+
+        plt.ylabel("Ordered RNA counts")
+        plt.xlabel("Theoretical normal quantiles")
+
+        r = fit[2]
+
+        x = np.linspace(-4, 4, 3)
+        y = fit[0] * x + fit[1]
+
+        plt.plot(x, y, color="#FF7D00")
+
+        ax.spines["right"].set_visible(False)
+        ax.spines["top"].set_visible(False)
+
+        if fit[1] < 0:
+            text = "y = {}x - {}\nR = {}".format("%.3g" % fit[0], "%.3g" % abs(fit[1]), "%.3g" % r)
+        else:
+            text = "y = {}x + {}\nR = {}".format("%.3g" % fit[0], "%.3g" % fit[1], "%.3g" % r)
+
+        fig.text(0.85, 0.45, text, verticalalignment="top", horizontalalignment="right")
+
+        pass
+
     if "out" in classed_arguments.keys():
         fig.savefig(classed_arguments["out"])
 
@@ -104,4 +136,4 @@ try:
         plt.show()
 
 except:
-    print("USAGE\n  ribonorma-plot [-h] [-type histogram/volcano] [-in filename] [-out filename]\n    [-infile_separator \\t] [-has_labels True] [-alpha 0.05]\n    [-foldchange_log_limits 1.5]\n\nDESCRIPTION\n  Ribonorma Python v1.1\n\nUse '-help' to print detailed descriptions of command line arguments\n========================================================================")
+    print("USAGE\n  ribonorma-plot [-h] [-type histogram/volcano/QQ] [-in filename] [-out filename]\n    [-infile_separator \\t] [-has_labels True] [-alpha 0.05]\n    [-foldchange_log_limits 1.5]\n\nDESCRIPTION\n  Ribonorma Python v1.1\n\nUse '-help' to print detailed descriptions of command line arguments\n========================================================================")
