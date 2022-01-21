@@ -3,7 +3,7 @@ USAGE
     [-out counts_output] [-remove_all_zeroes True] [-infile_separator \t]
     [-outfile_separator \t] [-has_labels False]
     [-id_column 0] [-length_column 1] [-count_start 2] [-h] [-phenotype_file]
-    [-phenotype_file_separator \n] [-percent_housekeep 10]
+    [-phenotype_file_separator \n] [-percent_housekeep 10] [-debug]
 
 DESCRIPTION
   Ribonorma Python v1.1
@@ -50,3 +50,6 @@ Separator for the phenotype file (i.e. "\n") to delimit the different phenotypes
 
 [-percent_housekeep (float)]
 Percentage of genes to consider for the geometric mean calculation. Only required in TPMR/TPMR2. Equivalent to alpha. Default: 10
+
+[-debug]
+Triggers the debug mode.

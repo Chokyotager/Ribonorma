@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import logging
+import traceback
 import sys
 import os
 from ribonorma import statistics
@@ -10,6 +12,8 @@ classed_arguments = {"infile_separator": "\t", "outfile_separator": "\t", "pheno
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
+debug = False
+
 try:
     for i in range(len(arguments)):
 
@@ -18,6 +22,9 @@ try:
         if argument.startswith("-"):
 
             classed_arguments[argument[1:]] = arguments[i + 1]
+
+    if "debug" in classed_arguments.keys():
+        debug = True
 
     if "h" in classed_arguments.keys():
         help_output = open(dir_path + "/help_pages/ribonorma-compare.txt", "r").read()
@@ -125,5 +132,10 @@ try:
             plt.show()
 
 
-except:
-    print("USAGE\n  ribonorma-compare [-h] [-in filename] [-out filename]\n    [-phenotype_file filename] [-infile_separator \\t] [-outfile_separator \\t]\n    [-phenotype_file_separator \\n] [-plot True] [-genes ids] [-has_labels True]\n    [-levene False] [-ovl False]\n\nDESCRIPTION\n  Ribonorma Python v1.1\n\nUse '-help' to print detailed descriptions of command line arguments\n========================================================================")
+except Exception as exception:
+
+    if debug:
+        logging.error(traceback.format_exc())
+
+    else:
+        print("USAGE\n  ribonorma-compare [-h] [-in filename] [-out filename]\n    [-phenotype_file filename] [-infile_separator \\t] [-outfile_separator \\t]\n    [-phenotype_file_separator \\n] [-plot True] [-genes ids] [-has_labels True]\n    [-levene False] [-ovl False] [-debug]\n\nDESCRIPTION\n  Ribonorma Python v1.1\n\nUse '-help' to print detailed descriptions of command line arguments\n========================================================================")

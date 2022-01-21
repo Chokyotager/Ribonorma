@@ -3,6 +3,7 @@ USAGE
     [-phenotype_file filename] [-infile_separator \t] [-outfile_separator \t]
     [-phenotype_file_separator \n] [-compare phenotypes]
     [-method independent/dependent/ANOVA] [-has_labels True]
+    [-debug]
 
 DESCRIPTION
   Ribonorma Python v1.1
@@ -30,10 +31,13 @@ Separator for the output file (i.e. "," for CSV). Default: \t
 Separator for the phenotype file (i.e. "\n") to delimit the different phenotypes/conditions of the RNA sequencing runs.
 
 [-compare (string)]
-Two or more phenotypes to compare. If unspecified, will be all phenotypes. Independent and dependent require 2 phenotypes, ANOVA can take anything above 2. Default: all phenotypes
+Two or more phenotypes to compare separated by a comma. If unspecified, will be all phenotypes. Independent and dependent require 2 phenotypes, ANOVA can take anything above 2. Default: all phenotypes
 
 [-method (string)]
 Can either be "independent", "dependent" or "ANOVA". Performs Welch's t-test for independent, Wilcoxon's signed rank test for dependent, and Kruskal-Wallis H test for ANOVA. Default: ANOVA
 
 [-has_labels (boolean)]
 First row in input normalised file are labels. Default: True
+
+[-debug]
+Triggers the debug mode.

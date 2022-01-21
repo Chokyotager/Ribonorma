@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import logging
+import traceback
 import sys
 import os
 import math
@@ -10,6 +12,8 @@ classed_arguments = {"infile_separator": "\t", "outfile_separator": "\t", "pheno
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
+debug = False
+
 try:
     for i in range(len(arguments)):
 
@@ -18,6 +22,9 @@ try:
         if argument.startswith("-"):
 
             classed_arguments[argument[1:]] = arguments[i + 1]
+
+    if "debug" in classed_arguments.keys():
+        debug = True
 
     if "h" in classed_arguments.keys():
         help_output = open(dir_path + "/help_pages/ribonorma-stats.txt", "r").read()
@@ -37,7 +44,12 @@ try:
 
     phenotypes = [x for x in open(classed_arguments["phenotype_file"]).read().split(classed_arguments["phenotype_file_separator"]) if len(x) > 0]
     unique_phenotypes = list(set(phenotypes))
-    compare_phenotypes = classed_arguments["compare"].split(",")
+
+    if classed_arguments["compare"] == "":
+        compare_phenotypes = unique_phenotypes
+
+    else:
+        compare_phenotypes = classed_arguments["compare"].split(",")
 
     # Group by phenotypes
     pheno_rearranged = list()
@@ -95,5 +107,10 @@ try:
     else:
         print(out)
 
-except:
-    print("USAGE\n  ribonorma-normalise [-h] [-in filename] [-out filename]\n    [-phenotype_file filename] [-infile_separator \\t] [-outfile_separator \\t]\n    [-phenotype_file_separator \\n] [-compare phenotypes]\n    [-method independent/dependent/ANOVA] [-has_labels True]\n\nDESCRIPTION\n  Ribonorma Python v1.1\n\nUse '-help' to print detailed descriptions of command line arguments\n========================================================================")
+except Exception as exception:
+
+    if debug:
+        logging.error(traceback.format_exc())
+
+    else:
+        print("USAGE\n  ribonorma-normalise [-h] [-in filename] [-out filename]\n    [-phenotype_file filename] [-infile_separator \\t] [-outfile_separator \\t]\n    [-phenotype_file_separator \\n] [-compare phenotypes]\n    [-method independent/dependent/ANOVA] [-has_labels True]\n    [-debug]\n\nDESCRIPTION\n  Ribonorma Python v1.1\n\nUse '-help' to print detailed descriptions of command line arguments\n========================================================================")

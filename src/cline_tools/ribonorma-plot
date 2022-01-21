@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import logging
+import traceback
 import sys
 import os
 import math
@@ -11,6 +13,8 @@ classed_arguments = {"infile_separator": "\t", "has_labels": "True", "alpha": "0
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
+debug = False
+
 try:
     for i in range(len(arguments)):
 
@@ -19,6 +23,9 @@ try:
         if argument.startswith("-"):
 
             classed_arguments[argument[1:]] = arguments[i + 1]
+
+    if "debug" in classed_arguments.keys():
+        debug = True
 
     if "h" in classed_arguments.keys():
         help_output = open(dir_path + "/help_pages/ribonorma-plot.txt", "r").read()
@@ -86,6 +93,7 @@ try:
         ax.spines["right"].set_visible(False)
         ax.spines["top"].set_visible(False)
 
+        # Multiply by 1.25 to extend the estimation
         filtered = [x for x in logged_fc if abs(x) < 1.25 * foldchange_log_limits]
         stat, p = stats.shapiro(filtered)
 
@@ -105,6 +113,7 @@ try:
 
                 del logged_fc[i]
 
+        # Multiply by 1.25 to extend the estimation
         filtered = [x for x in logged_fc if abs(x) < 1.25 * foldchange_log_limits]
 
         stat, fit = stats.probplot(filtered)
@@ -133,13 +142,16 @@ try:
 
         fig.text(0.85, 0.45, text, verticalalignment="top", horizontalalignment="right")
 
-        pass
-
     if "out" in classed_arguments.keys():
         fig.savefig(classed_arguments["out"])
 
     else:
         plt.show()
 
-except:
-    print("USAGE\n  ribonorma-plot [-h] [-type histogram/volcano/QQ] [-in filename] [-out filename]\n    [-infile_separator \\t] [-has_labels True] [-alpha 0.05]\n    [-foldchange_log_limits 1.5]\n\nDESCRIPTION\n  Ribonorma Python v1.1\n\nUse '-help' to print detailed descriptions of command line arguments\n========================================================================")
+except Exception as exception:
+
+    if debug:
+        logging.error(traceback.format_exc())
+
+    else:
+        print("USAGE\n  ribonorma-plot [-h] [-type histogram/volcano/QQ] [-in filename] [-out filename]\n    [-infile_separator \\t] [-has_labels True] [-alpha 0.05]\n    [-foldchange_log_limits 1.5] [-debug]\n\nDESCRIPTION\n  Ribonorma Python v1.1\n\nUse '-help' to print detailed descriptions of command line arguments\n========================================================================")

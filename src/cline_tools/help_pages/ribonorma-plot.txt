@@ -1,7 +1,7 @@
 USAGE
-  ribonorma-plot [-h] [-type histogram/volcano/QQ] [-in filename] [-out filename]
-    [-infile_separator \t] [-has_labels True] [-alpha 0.05]
-    [-foldchange_log_limits 1.5]
+  ribonorma-plot [-h] [-type histogram/volcano/QQ] [-in filename]
+    [-out filename] [-infile_separator \t] [-has_labels True]
+    [-alpha 0.05] [-foldchange_log_limits 1.5] [-debug]
 
 DESCRIPTION
   Ribonorma Python v1.1
@@ -14,3 +14,22 @@ Shows this interface.
 Type of plot to produce. Can either be "histogram", "volcano", or "QQ".
 
 [-in (string)]
+Input file from ribonorma-stats.
+
+[-out (string)]
+Optional output file. If not specified, will output plot as a PyPlot application window.
+
+[-infile_separator (string)]
+Separator for the input file (i.e. "," for CSV). Default: \t
+
+[-has_labels (boolean)]
+First row in input normalised file are labels. Default: True
+
+[-alpha (float)]
+Significance level to display in the final plot. In volcano plot determines where the dotted line goes. In histogram and QQ removes all data points that do not meet the significance threshold. Default: 0.05
+
+[-foldchange_log_limits (float)]
+The range of logged fold changes to display. Default: 1.5
+
+[-debug]
+Triggers the debug mode.
