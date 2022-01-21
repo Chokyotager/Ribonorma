@@ -11,7 +11,9 @@ Installation can be done with Pip. Python 3.6+.
 ## How to use
 
 ### Command line usage
-1. Suppose you have two files, one file with the raw RNASeq count data () and one file with the phenotype file data ().
+![Pipeline](/images/Ribonorma%20analysis%20pipeline.png)
+
+1. Suppose you have two files, one file with the raw RNASeq count data ([example](/test/maqc_count_with_lengths.tsv)) and one file with the phenotype file data ([example](/test/maqc_phenotypes.tsv)).
 
 2. Run `ribonorma-normalise`
 
