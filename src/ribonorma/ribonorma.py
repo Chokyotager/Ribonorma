@@ -29,6 +29,20 @@ def tpm (reads, gene_length):
 
     return normalised
 
+def fpkm (reads, gene_length):
+
+    assert (len(reads) == len(gene_length))
+
+    kappa = sum([reads[i] * gene_length[i] for i in range(len(reads))])
+    normalised = list()
+
+    for i in range(len(reads)):
+
+        fpkm_count = (reads[i] * 1e9) / kappa
+        normalised.append(fpkm_count)
+
+    return normalised
+
 def tpmr (samples, gene_length=[], experimental_conditions=[], percent_housekeep=10):
 
     assert (len(samples) == len(experimental_conditions))
