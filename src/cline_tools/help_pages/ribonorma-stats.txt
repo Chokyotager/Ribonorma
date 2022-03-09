@@ -1,5 +1,5 @@
 USAGE
-  ribonorma-normalise [-h] [-in filename] [-out filename]
+  ribonorma-normalise [-h(elp)] [-in filename] [-out filename]
     [-phenotype_file filename] [-infile_separator \t] [-outfile_separator \t]
     [-phenotype_file_separator \n] [-compare phenotypes]
     [-method independent/dependent/ANOVA] [-has_labels True]
@@ -9,7 +9,7 @@ DESCRIPTION
   Ribonorma Python v1.1
 
 PARAMETERS
-[-h]
+[-h(elp)]
 Shows this interface.
 
 [-in (string)]:

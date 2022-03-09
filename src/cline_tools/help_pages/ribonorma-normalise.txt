@@ -1,15 +1,15 @@
 USAGE
-  ribonorma-normalise [-method TPM/TPMR/TPMM/TPMR2] [-in datafile]
+  ribonorma-normalise [-method FPKM/TPM/TPMR/TPMM/TPMR2] [-in datafile]
     [-out counts_output] [-remove_all_zeroes True] [-infile_separator \t]
     [-outfile_separator \t] [-has_labels False]
-    [-id_column 0] [-length_column 1] [-count_start 2] [-h] [-phenotype_file]
+    [-id_column 0] [-length_column 1] [-count_start 2] [-h(elp)] [-phenotype_file]
     [-phenotype_file_separator \n] [-percent_housekeep 10] [-debug]
 
 DESCRIPTION
   Ribonorma Python v1.1
 
 PARAMETERS
-[-h]
+[-h(elp)]
 Shows this interface.
 
 [-method (string)]

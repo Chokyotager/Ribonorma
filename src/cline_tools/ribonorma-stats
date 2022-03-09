@@ -26,7 +26,7 @@ try:
     if "debug" in classed_arguments.keys():
         debug = True
 
-    if "h" in classed_arguments.keys():
+    if "h" in classed_arguments.keys() or "help" in classed_arguments.keys():
         help_output = open(dir_path + "/help_pages/ribonorma-stats.txt", "r").read()
         print(help_output)
         os._exit(1)
@@ -113,4 +113,4 @@ except Exception as exception:
         logging.error(traceback.format_exc())
 
     else:
-        print("USAGE\n  ribonorma-normalise [-h] [-in filename] [-out filename]\n    [-phenotype_file filename] [-infile_separator \\t] [-outfile_separator \\t]\n    [-phenotype_file_separator \\n] [-compare phenotypes]\n    [-method independent/dependent/ANOVA] [-has_labels True]\n    [-debug]\n\nDESCRIPTION\n  Ribonorma Python v1.1\n\nUse '-help' to print detailed descriptions of command line arguments\n========================================================================")
+        print("USAGE\n  ribonorma-normalise [-h(elp)] [-in filename] [-out filename]\n    [-phenotype_file filename] [-infile_separator \\t] [-outfile_separator \\t]\n    [-phenotype_file_separator \\n] [-compare phenotypes]\n    [-method independent/dependent/ANOVA] [-has_labels True]\n    [-debug]\n\nDESCRIPTION\n  Ribonorma Python v1.1\n\nUse '-help' to print detailed descriptions of command line arguments\n========================================================================")

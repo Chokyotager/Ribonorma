@@ -27,7 +27,7 @@ try:
     if "debug" in classed_arguments.keys():
         debug = True
 
-    if "h" in classed_arguments.keys():
+    if "h" in classed_arguments.keys() or "help" in classed_arguments.keys():
         help_output = open(dir_path + "/help_pages/ribonorma-plot.txt", "r").read()
         print(help_output)
         os._exit(1)
@@ -154,4 +154,4 @@ except Exception as exception:
         logging.error(traceback.format_exc())
 
     else:
-        print("USAGE\n  ribonorma-plot [-h] [-type histogram/volcano/QQ] [-in filename] [-out filename]\n    [-infile_separator \\t] [-has_labels True] [-alpha 0.05]\n    [-foldchange_log_limits 1.5] [-debug]\n\nDESCRIPTION\n  Ribonorma Python v1.1\n\nUse '-help' to print detailed descriptions of command line arguments\n========================================================================")
+        print("USAGE\n  ribonorma-plot [-h(elp)] [-type histogram/volcano/QQ] [-in filename] [-out filename]\n    [-infile_separator \\t] [-has_labels True] [-alpha 0.05]\n    [-foldchange_log_limits 1.5] [-debug]\n\nDESCRIPTION\n  Ribonorma Python v1.1\n\nUse '-help' to print detailed descriptions of command line arguments\n========================================================================")

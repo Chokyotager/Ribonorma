@@ -26,7 +26,7 @@ try:
     if "debug" in classed_arguments.keys():
         debug = True
 
-    if "h" in classed_arguments.keys():
+    if "h" in classed_arguments.keys() or "help" in classed_arguments.keys():
         help_output = open(dir_path + "/help_pages/ribonorma-compare.txt", "r").read()
         print(help_output)
         os._exit(1)
@@ -138,4 +138,4 @@ except Exception as exception:
         logging.error(traceback.format_exc())
 
     else:
-        print("USAGE\n  ribonorma-compare [-h] [-in filename] [-out filename]\n    [-phenotype_file filename] [-infile_separator \\t] [-outfile_separator \\t]\n    [-phenotype_file_separator \\n] [-plot True] [-genes ids] [-has_labels True]\n    [-levene False] [-ovl False] [-debug]\n\nDESCRIPTION\n  Ribonorma Python v1.1\n\nUse '-help' to print detailed descriptions of command line arguments\n========================================================================")
+        print("USAGE\n  ribonorma-compare [-h(elp)] [-in filename] [-out filename]\n    [-phenotype_file filename] [-infile_separator \\t] [-outfile_separator \\t]\n    [-phenotype_file_separator \\n] [-plot True] [-genes ids] [-has_labels True]\n    [-levene False] [-ovl False] [-debug]\n\nDESCRIPTION\n  Ribonorma Python v1.1\n\nUse '-help' to print detailed descriptions of command line arguments\n========================================================================")

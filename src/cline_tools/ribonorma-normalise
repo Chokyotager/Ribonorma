@@ -7,7 +7,7 @@ import os
 from ribonorma import ribonorma
 
 arguments = sys.argv + [""]
-classed_arguments = {"remove_all_zeroes": "True", "infile_separator": "\t", "outfile_separator": "\t", "has_labels": "False", "length_column": "1", "data_start": "2", "id_column": "0", "percent_housekeep": "10", "phenotype_file_separator": "\n"}
+classed_arguments = {"remove_all_zeroes": "True", "infile_separator": "\t", "outfile_separator": "\t", "has_labels": "False", "length_column": "1", "count_start": "2", "id_column": "0", "percent_housekeep": "10", "phenotype_file_separator": "\n"}
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
@@ -25,7 +25,7 @@ try:
     if "debug" in classed_arguments.keys():
         debug = True
 
-    if "h" in classed_arguments.keys():
+    if "h" in classed_arguments.keys() or "help" in classed_arguments.keys():
         help_output = open(dir_path + "/help_pages/ribonorma-normalise.txt", "r").read()
         print(help_output)
         os._exit(1)
@@ -37,7 +37,7 @@ try:
 
     id_column = int(classed_arguments["id_column"])
     length_column = int(classed_arguments["length_column"])
-    data_start = int(classed_arguments["data_start"])
+    data_start = int(classed_arguments["count_start"])
 
     if has_labels:
         labels = data[0]
@@ -61,8 +61,16 @@ try:
                 del lengths[i]
                 del ids[i]
 
+    if classed_arguments["method"] == "FPKM":
 
-    if classed_arguments["method"] == "TPM":
+        output = list()
+        # Calculate the TPM
+        for sample in sample_data:
+
+            fpkm_data = ribonorma.fpkm(reads=sample, gene_length=lengths)
+            output.append(fpkm_data)
+
+    elif classed_arguments["method"] == "TPM":
 
         output = list()
         # Calculate the TPM
@@ -111,4 +119,4 @@ except Exception as exception:
         logging.error(traceback.format_exc())
 
     else:
-        print("USAGE\n  ribonorma-normalise [-method TPM/TPMR/TPMM/TPMR2] [-in datafile]\n    [-out counts_output] [-remove_all_zeroes True] [-infile_separator \\t]\n    [-outfile_separator \\t] [-has_labels False]\n    [-id_column 0] [-length_column 1] [-count_start 2] [-h] [-phenotype_file]\n    [-phenotype_file_separator \\n] [-percent_housekeep 10] [-debug]\n\nDESCRIPTION\n  Ribonorma Python v1.1\n\nUse '-help' to print detailed descriptions of command line arguments\n========================================================================")
+        print("USAGE\n  ribonorma-normalise [-method FPKM/TPM/TPMR/TPMM/TPMR2] [-in datafile]\n    [-out counts_output] [-remove_all_zeroes True] [-infile_separator \\t]\n    [-outfile_separator \\t] [-has_labels False]\n    [-id_column 0] [-length_column 1] [-count_start 2] [-h(elp)] [-phenotype_file]\n    [-phenotype_file_separator \\n] [-percent_housekeep 10] [-debug]\n\nDESCRIPTION\n  Ribonorma Python v1.1\n\nUse '-help' to print detailed descriptions of command line arguments\n========================================================================")

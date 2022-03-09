@@ -1,5 +1,5 @@
 USAGE
-  ribonorma-plot [-h] [-type histogram/volcano/QQ] [-in filename]
+  ribonorma-plot [-h(elp)] [-type histogram/volcano/QQ] [-in filename]
     [-out filename] [-infile_separator \t] [-has_labels True]
     [-alpha 0.05] [-foldchange_log_limits 1.5] [-debug]
 
@@ -7,7 +7,7 @@ DESCRIPTION
   Ribonorma Python v1.1
 
 PARAMETERS
-[-h]
+[-h(elp)]
 Shows this interface.
 
 [-type (string)]

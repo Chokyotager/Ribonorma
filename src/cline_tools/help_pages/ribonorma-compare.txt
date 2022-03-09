@@ -1,5 +1,5 @@
 USAGE
-  ribonorma-compare [-h] [-in filename] [-out filename]
+  ribonorma-compare [-h(elp)] [-in filename] [-out filename]
     [-phenotype_file filename] [-infile_separator \t] [-outfile_separator \t]
     [-phenotype_file_separator \n] [-plot True] [-genes ids] [-has_labels True]
     [-levene False] [-ovl False] [-debug]
@@ -8,7 +8,7 @@ DESCRIPTION
   Ribonorma Python v1.1
 
 PARAMETERS
-[-h]
+[-h(elp)]
 Shows this interface.
 
 [-in (string)]:
