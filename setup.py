@@ -8,7 +8,7 @@ with open("README.md", "r") as fh:
 setuptools.setup(
     name="ribonorma",
     version="1.1",
-    author="ChocoParrot (Hilbert L.), Kroppeb (Robbe P.)",
+    author="ChocoParrot (Hilbert Lam), Kroppeb (Robbe Pincket)",
     author_email="lachocoparrot@gmail.com",
     description="Implements additional normalisation methods for RNA Sequencing.",
     long_description=long_description,
