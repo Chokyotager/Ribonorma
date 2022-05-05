@@ -1,5 +1,5 @@
 # Ribonorma
-As part of the paper
+As part of the paper **Transcripts Per Million Ratio: a novel batch and sample control methodover an established paradigm** by H. Lam and R. Pincket.
 
 
 ## Installation
